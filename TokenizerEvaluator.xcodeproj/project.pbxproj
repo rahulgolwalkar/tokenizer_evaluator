@@ -13,6 +13,8 @@
 		BB01F30320A4F2B5006DBBD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB01F30220A4F2B5006DBBD2 /* Assets.xcassets */; };
 		BB01F30620A4F2B5006DBBD2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB01F30420A4F2B5006DBBD2 /* LaunchScreen.storyboard */; };
 		BB01F31120A4F2B5006DBBD2 /* TokenizerEvaluatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01F31020A4F2B5006DBBD2 /* TokenizerEvaluatorTests.swift */; };
+		BB01F31E20A4F323006DBBD2 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01F31D20A4F323006DBBD2 /* Stack.swift */; };
+		BB01F32020A4F446006DBBD2 /* TokenizerEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01F31F20A4F446006DBBD2 /* TokenizerEvaluator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		BB01F30C20A4F2B5006DBBD2 /* TokenizerEvaluatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TokenizerEvaluatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB01F31020A4F2B5006DBBD2 /* TokenizerEvaluatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenizerEvaluatorTests.swift; sourceTree = "<group>"; };
 		BB01F31220A4F2B5006DBBD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BB01F31D20A4F323006DBBD2 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
+		BB01F31F20A4F446006DBBD2 /* TokenizerEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenizerEvaluator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,7 @@
 		BB01F2FA20A4F2B5006DBBD2 /* TokenizerEvaluator */ = {
 			isa = PBXGroup;
 			children = (
+				BB01F31B20A4F2F8006DBBD2 /* DataStructure */,
 				BB01F2FB20A4F2B5006DBBD2 /* AppDelegate.swift */,
 				BB01F2FD20A4F2B5006DBBD2 /* ViewController.swift */,
 				BB01F2FF20A4F2B5006DBBD2 /* Main.storyboard */,
@@ -94,6 +99,15 @@
 				BB01F31220A4F2B5006DBBD2 /* Info.plist */,
 			);
 			path = TokenizerEvaluatorTests;
+			sourceTree = "<group>";
+		};
+		BB01F31B20A4F2F8006DBBD2 /* DataStructure */ = {
+			isa = PBXGroup;
+			children = (
+				BB01F31D20A4F323006DBBD2 /* Stack.swift */,
+				BB01F31F20A4F446006DBBD2 /* TokenizerEvaluator.swift */,
+			);
+			path = DataStructure;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +214,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB01F2FE20A4F2B5006DBBD2 /* ViewController.swift in Sources */,
+				BB01F32020A4F446006DBBD2 /* TokenizerEvaluator.swift in Sources */,
+				BB01F31E20A4F323006DBBD2 /* Stack.swift in Sources */,
 				BB01F2FC20A4F2B5006DBBD2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
