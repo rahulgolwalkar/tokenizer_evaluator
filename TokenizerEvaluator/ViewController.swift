@@ -36,12 +36,10 @@ class ViewController: UIViewController {
     func evaluateCurrentInput() {
         do {
             let results = try evaluator.evaluateExpression(expression: inputTextField.text!, paramDictionary: dictionaryTextField.text!)
-            print(results.1)
             tokenizerResult.text = results.0
             resultLabel.text = results.1
             resultLabel.textColor = .black
         } catch {
-            print(error)
             resultLabel.textColor = .red
             resultLabel.text = "Error : \(error)"
             tokenizerResult.text = ""
