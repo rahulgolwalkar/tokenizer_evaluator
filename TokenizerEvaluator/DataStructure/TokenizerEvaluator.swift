@@ -34,6 +34,11 @@ struct TokenizerEvaluator {
             if (Int(itemArray[1]) == nil) {
                 throw InputDicError.notAnInteger
             }
+            
+            if (valueDictionary[itemArray[0]] != nil) {
+                throw InputDicError.duplicateParameters
+            }
+            
             valueDictionary[itemArray[0]] = itemArray[1]
         }
         return valueDictionary
@@ -96,7 +101,14 @@ struct TokenizerEvaluator {
         return tokenArray
     }
     
-    func evaluateExpression(expression: String, paramDictionary: String) throws -> String {
+    func evaluateExpression(expression: String, paramDictionary: String) throws -> (String, String) {
+        
+        let expression = expression.replacingOccurrences(of: " ", with: "")
+        
+        if (expression.count < 1) {
+            throw InvalidChar.emptyExpression
+        }
+        
         let paramDictionary = try parseInputDictionary(inputString: paramDictionary)
         var tokenArray = try expressionParser(inputToken: expression)
         
@@ -133,7 +145,7 @@ struct TokenizerEvaluator {
             try valueStack.push(applyOp(op: operatorStack.pop()!, b: valueStack.pop()!, a: valueStack.pop()!))
         }
         
-        return valueStack.pop()!
+        return (outPutSting, valueStack.pop()!)
     }
 
     
@@ -175,33 +187,16 @@ struct TokenizerEvaluator {
         case invalidNumberWithIdentifier
         case endCharIsOperator
         case consecutiveOperator
+        case emptyExpression
     }
     
     
     
-//    do {
-//    let gg = try expressionParser(inputToken: "9+7")
-//    print(gg)
-//    } catch {
-//    print(error)
-//    }
-//
-//    do {
-//    var ttt =  try parseInputDictionary(inputString: "")
-//    print(ttt)
-//    } catch {
-//    print(error)
-//    }
-//
-//    do {
-//    try evaluateExpression(expression: "2+7*6+wed", paramDictionary: "[wed:8]")
-//    } catch {
-//    print(error)
-//    }
     
     enum InputDicError: Error {
         case invalidInputFormat
         case notAnInteger
+        case duplicateParameters
     }
     
     
