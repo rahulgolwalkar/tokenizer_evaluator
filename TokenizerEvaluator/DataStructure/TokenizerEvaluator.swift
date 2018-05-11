@@ -118,7 +118,7 @@ struct TokenizerEvaluator {
         let expression = expression.replacingOccurrences(of: " ", with: "")
         
         if (expression.count < 1) {
-            return ("0", "")
+            return ("", "0")
         }
         
         let paramDictionary = try parseInputDictionary(inputString: paramDictionary)

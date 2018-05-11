@@ -105,6 +105,43 @@ class TokenizerEvaluatorTests: XCTestCase {
     
     // MARK : Test expressionEvaluator
     
+    func testExpressionEvaluatorNegative() throws {
+        let evaluator = TokenizerEvaluator()
+        
+        XCTAssertThrowsError(try evaluator.evaluateExpression(expression: "1+4*ab+3", paramDictionary: "[abc:5]")) { error in
+            XCTAssertEqual(error as! TokenizerEvaluator.EvaluationError, TokenizerEvaluator.EvaluationError.variableNotDefined)
+        }
+        XCTAssertThrowsError(try evaluator.evaluateExpression(expression: "1+4*ab+3/zx", paramDictionary: "[ab:5, zx:0]")) { error in
+            XCTAssertEqual(error as! TokenizerEvaluator.EvaluationError, TokenizerEvaluator.EvaluationError.tryingToDivideByZero)
+        }
+
+    }
+    
+    func testExpressionEvaluatorPositive() throws {
+        let evaluator = TokenizerEvaluator()
+        let results = try evaluator.evaluateExpression(expression: "1+4*abc+3", paramDictionary: "[abc:5]")
+        let expected = ("Constant(1), Operator(+), Constant(4), Operator(*), Identifier(abc), Operator(+), Constant(3), ", "24")
+        
+        print(results.1)
+        let eql = results == expected
+        XCTAssert(eql)
+        
+        let results2 = try evaluator.evaluateExpression(expression: "", paramDictionary: "[abc:5]")
+        XCTAssertEqual(results2.0, "")
+        XCTAssertEqual(results2.1, "0")
+        
+        let results3 = try evaluator.evaluateExpression(expression: "ab+cd", paramDictionary: "[ab:5, cd: 2]")
+        XCTAssertEqual(results3.1, "7")
+        
+        let results4 = try evaluator.evaluateExpression(expression: "1/3*3", paramDictionary: "[ab:5, cd: 2]")
+        XCTAssertEqual(results4.1, "1")
+
+        let results5 = try evaluator.evaluateExpression(expression: "7-77", paramDictionary: "[ab:5, cd: 2]")
+        XCTAssertEqual(results5.1, "-70")
+
+        
+    }
+    
     // MARK : test Stack implementation
     
     func testEmptyStack() {
