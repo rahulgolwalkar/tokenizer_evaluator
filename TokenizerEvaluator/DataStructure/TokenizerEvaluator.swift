@@ -53,11 +53,6 @@ struct TokenizerEvaluator {
         
         var i = 0
         while (i<tokens.count) {
-//            if (!(isValidNumberChar(char: tokens[i]) || isValidIdentifierCharacter(char: tokens[i]) || isOperator(char: tokens[i]))) {
-//                throw InvalidChar.invalidCharacter
-//            } else  {
-//                print(tokens[i])
-//            }
             if ( !isValidInputChar(char: tokens[i])) {
                 throw InvalidChar.invalidCharacter
             }

@@ -11,18 +11,6 @@ import XCTest
 
 class TokenizerEvaluatorTests: XCTestCase {
     
-    // test rounded cases
-    // - > 0
-    // -  < 1
-    // - input spaces and without spaces should evaluate same
-    // - invalid characters should throw errors
-    // -- if you implement brackets then check if it ever becomes negative
-    // - bodmas stack should evaluate differently
-    // - if a variable has numbers in between throw error .
-    // - each funciton test
-    // - test case for each error condition
-
-    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
