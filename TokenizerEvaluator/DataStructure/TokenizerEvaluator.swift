@@ -106,7 +106,7 @@ struct TokenizerEvaluator {
         let expression = expression.replacingOccurrences(of: " ", with: "")
         
         if (expression.count < 1) {
-            throw InvalidChar.emptyExpression
+            return ("0", "")
         }
         
         let paramDictionary = try parseInputDictionary(inputString: paramDictionary)
@@ -145,7 +145,11 @@ struct TokenizerEvaluator {
             try valueStack.push(applyOp(op: operatorStack.pop()!, b: valueStack.pop()!, a: valueStack.pop()!))
         }
         
-        return (outPutSting, valueStack.pop()!)
+        
+        let result = (valueStack.pop()! as NSString).floatValue
+        let rounded = lround(Double(result))
+        
+        return (outPutSting, "\(rounded)")
     }
 
     
@@ -216,9 +220,9 @@ struct TokenizerEvaluator {
     }
     
     func applyOp(op: String, b: String, a:String) throws -> String {
-        let b:Int! = Int(b)
-        let a:Int! = Int(a)
-        var result: Int = 0
+        let b:Float! = Float(b)
+        let a:Float! = Float(a)
+        var result: Float = 0
         switch op {
         case "+":
             result = a + b
