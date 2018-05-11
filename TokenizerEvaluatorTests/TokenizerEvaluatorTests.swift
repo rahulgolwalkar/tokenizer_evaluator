@@ -14,6 +14,14 @@ class TokenizerEvaluatorTests: XCTestCase {
     // test rounded cases
     // - > 0
     // -  < 1
+    // - input spaces and without spaces should evaluate same
+    // - invalid characters should throw errors
+    // -- if you implement brackets then check if it ever becomes negative
+    // - bodmas stack should evaluate differently
+    // - if a variable has numbers in between throw error .
+    // - each funciton test
+    // - test case for each error condition
+
     
     override func setUp() {
         super.setUp()
@@ -25,14 +33,79 @@ class TokenizerEvaluatorTests: XCTestCase {
         super.tearDown()
     }
     
-//    func testExample() {
-//        // This is an example of a functional test case.
-//        // Use XCTAssert and related functions to verify your tests produce the correct results.
-//    }
+    
+    // MARK : Test expressionParser
+    
+    func testExpressionParserNegative() throws {
+        let evaluator = TokenizerEvaluator()
+        
+        XCTAssertThrowsError(try evaluator.expressionParser(inputToken: "4+1++")) { error in
+            XCTAssertEqual(error as! TokenizerEvaluator.InvalidChar, TokenizerEvaluator.InvalidChar.consecutiveOperator)
+        }
+        XCTAssertThrowsError(try evaluator.expressionParser(inputToken: "1+abc+")) { error in
+            XCTAssertEqual(error as! TokenizerEvaluator.InvalidChar, TokenizerEvaluator.InvalidChar.endCharIsOperator)
+        }
+        XCTAssertThrowsError(try evaluator.expressionParser(inputToken: "+1+abc")) { error in
+            XCTAssertEqual(error as! TokenizerEvaluator.InvalidChar, TokenizerEvaluator.InvalidChar.endCharIsOperator)
+        }
+        XCTAssertThrowsError(try evaluator.expressionParser(inputToken: "1+ab&c")) { error in
+            XCTAssertEqual(error as! TokenizerEvaluator.InvalidChar, TokenizerEvaluator.InvalidChar.invalidCharacter)
+        }
+        XCTAssertThrowsError(try evaluator.expressionParser(inputToken: "1+ab4c+7")) { error in
+            XCTAssertEqual(error as! TokenizerEvaluator.InvalidChar, TokenizerEvaluator.InvalidChar.invalidIdentifierWithNumber)
+        }
+        XCTAssertThrowsError(try evaluator.expressionParser(inputToken: "1+34u+7")) { error in
+            XCTAssertEqual(error as! TokenizerEvaluator.InvalidChar, TokenizerEvaluator.InvalidChar.invalidNumberWithIdentifier)
+        }
+
+
+
+
+    }
+    
+    func testExpressionParserPositive() throws {
+        let evaluator = TokenizerEvaluator()
+        
+        
+        let eval = try evaluator.expressionParser(inputToken: "1+400* abc+ 3/m")
+        let expected = [(TokenizerEvaluator.TokenType.constant, "1"),(TokenizerEvaluator.TokenType.operatorType, "+"), (TokenizerEvaluator.TokenType.constant, "400"), (TokenizerEvaluator.TokenType.operatorType, "*"),  (TokenizerEvaluator.TokenType.identifier, "abc"), (TokenizerEvaluator.TokenType.operatorType, "+"), (TokenizerEvaluator.TokenType.constant, "3"), (TokenizerEvaluator.TokenType.operatorType, "/"), (TokenizerEvaluator.TokenType.identifier, "m")]
+        var equal = true
+        for i in 0 ..< eval.count {
+            if (eval[i] != expected[i]) {
+                equal = false
+            }
+        }
+        XCTAssert(equal)
+    }
     
     
+    // MARK : Test parseInputDictionary
     
-    // MARK : test the stack
+    func testParseInputDictionaryNegative() throws {
+        let evaluator = TokenizerEvaluator()
+        XCTAssertThrowsError(try evaluator.parseInputDictionary(inputString: "[ abc 4 , pqr: 7]")) { error in
+            XCTAssertEqual(error as! TokenizerEvaluator.InputDicError, TokenizerEvaluator.InputDicError.invalidInputFormat)
+        }
+        XCTAssertThrowsError(try evaluator.parseInputDictionary(inputString: "[ abc : 4 , abc: 7]")) { error in
+            XCTAssertEqual(error as! TokenizerEvaluator.InputDicError, TokenizerEvaluator.InputDicError.duplicateParameters)
+        }
+        XCTAssertThrowsError(try evaluator.parseInputDictionary(inputString: "[ abc : 4f , abc: 7]")) { error in
+            XCTAssertEqual(error as! TokenizerEvaluator.InputDicError, TokenizerEvaluator.InputDicError.notAnInteger)
+        }
+
+    }
+    
+    func testParseInputDictionaryPositive() throws {
+        let evaluator = TokenizerEvaluator()
+        let dic = try evaluator.parseInputDictionary(inputString: "[ abc : 4 , pqr: 7]")
+        XCTAssertEqual(dic, ["abc": "4", "pqr": "7"])
+        XCTAssertNotEqual(dic, ["abc": "5"])
+        XCTAssertNotEqual(dic, ["abc": "4"])
+    }
+    
+    // MARK : Test expressionEvaluator
+    
+    // MARK : test Stack implementation
     
     func testEmptyStack() {
         var stack = Stack<Int>()

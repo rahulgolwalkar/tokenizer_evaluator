@@ -24,6 +24,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func textFieldChanged(_ sender: Any) {
+        if (inputTextField.text?.contains(" "))! {
+            inputTextField.text = inputTextField.text?.replacingOccurrences(of: " ", with: "")
+        }
+        if (dictionaryTextField.text?.contains(" "))! {
+            dictionaryTextField.text = dictionaryTextField.text?.replacingOccurrences(of: " ", with: "")
+        }
         evaluateCurrentInput()
     }
     

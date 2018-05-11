@@ -11,7 +11,7 @@ import Foundation
 struct TokenizerEvaluator {
     
     
-    enum TokenType: String {
+    enum TokenType: String, Equatable {
         case identifier = "Identifier"
         case operatorType = "Operator"
         case constant = "Constant"
@@ -53,7 +53,12 @@ struct TokenizerEvaluator {
         
         var i = 0
         while (i<tokens.count) {
-            if (!(isValidNumberChar(char: tokens[i]) || isValidIdentifierCharacter(char: tokens[i]) || isOperator(char: tokens[i]))) {
+//            if (!(isValidNumberChar(char: tokens[i]) || isValidIdentifierCharacter(char: tokens[i]) || isOperator(char: tokens[i]))) {
+//                throw InvalidChar.invalidCharacter
+//            } else  {
+//                print(tokens[i])
+//            }
+            if ( !isValidInputChar(char: tokens[i])) {
                 throw InvalidChar.invalidCharacter
             }
             
@@ -65,6 +70,9 @@ struct TokenizerEvaluator {
                         i += 1
                     } else if (i == tokens.count - 1) {
                         break
+                    }
+                    if (!isValidInputChar(char: tokens[i])) {
+                        throw InvalidChar.invalidCharacter
                     }
                 }
                 tokenArray.append((TokenType.constant,tempString))
@@ -81,6 +89,10 @@ struct TokenizerEvaluator {
                     } else if (i == tokens.count - 1) {
                         break
                     }
+                    if (!isValidInputChar(char: tokens[i])) {
+                        throw InvalidChar.invalidCharacter
+                    }
+
                 }
                 tokenArray.append((TokenType.identifier, tempString))
                 if (isValidNumberChar(char: tokens[i])) {
@@ -152,7 +164,18 @@ struct TokenizerEvaluator {
         return (outPutSting, "\(rounded)")
     }
 
-    
+    func isValidInputChar(char: Character) -> Bool {
+        if (isValidNumberChar(char: char)) {
+            return true
+        }
+        if (isOperator(char: char)) {
+            return true
+        }
+        if (isValidIdentifierCharacter(char: char)) {
+            return true
+        }
+        return false
+    }
     
     func isValidNumberChar(char: Character) -> Bool {
         if (char >= "0" && char <= "9") {
@@ -186,12 +209,10 @@ struct TokenizerEvaluator {
     
     enum InvalidChar: Error {
         case invalidCharacter
-        case invalidIdentifier
         case invalidIdentifierWithNumber
         case invalidNumberWithIdentifier
         case endCharIsOperator
         case consecutiveOperator
-        case emptyExpression
     }
     
     
